@@ -113,7 +113,7 @@ const LevelArea = styled(ScoreArea)`
 const GameStateArea = styled(ScoreArea)`
   top: 79%;
 `
-const Stop = styled.button`
+const Pause = styled.button`
   position: absolute;
   top: 53%;
   left: 75%;
@@ -136,14 +136,15 @@ const Stop = styled.button`
 
 const Home = () => {
   const [gameOver, setGameOver] = useState(false)
-  const [stop, setGameStop] = useState(false)
+  const [pause, setGamePause] = useState(false)
   const [score, setScore] = useState(0)
   const [level, setLevel] = useState(1)
   const [hold, setHold] = useState(BLOCKS[7])
   const [checkHold, setCheckHold] = useState(false)
   const [checkOne, setCheckOne] = useState(false)
-  const [checkReset, setCheckReset] = useState(false)
 
+  const [checkReset, setCheckReset] = useState(false)
+  //for decideng next-mino
   const createRandomNumbers = (): number[] => {
     const randoms: number[] = []
     while (randoms.length < 7) {
@@ -359,14 +360,14 @@ const Home = () => {
     changeNextMinoBoard()
     changeNextMinoBoard2()
     changeHoldMinoBoard()
-    if (gameOver || stop) return
+    if (gameOver || pause) return
     const check = checkCordinate(x, y + 1, tetromino[rotateNumber])
     if (!check) Y(y + 1)
     setTimeout(() => {
       setCheckOne(!checkOne)
       if (check) setCheckReset(!checkReset)
     }, 1100 - levelofTetris(level) * 100)
-  }, [checkOne, stop])
+  }, [checkOne, pause])
 
   // 矢印キー処理関数
   // 左に1マス移動する関数
@@ -464,7 +465,7 @@ const Home = () => {
   }
 
   // ゲームを一時停止する関数
-  const gameStop = (): void => setGameStop(!stop)
+  const gamePause = (): void => setGamePause(!pause)
 
   // キーボード操作
   const handleKeyDown = useCallback(
@@ -506,12 +507,12 @@ const Home = () => {
   )
 
   useEffect(() => {
-    if (gameOver || stop) return
+    if (gameOver || pause) return
     document.addEventListener('keydown', handleKeyDown, false)
     return () => {
       document.removeEventListener('keydown', handleKeyDown, false)
     }
-  }, [x, y, rotateNumber, tetromino, stop])
+  }, [x, y, rotateNumber, tetromino, pause])
   
   return (
     <Container>
@@ -565,7 +566,7 @@ const Home = () => {
         <GameStateArea>
           <ScoreandLevel>{gameOver ? 'Gameover' : 'You can do it!'}</ScoreandLevel>
         </GameStateArea>
-        <Stop onClick={gameStop}>{stop ? 'Resume!' : 'Stop!'}</Stop>
+        <Pause onClick={gamePause}>{pause ? 'Resume!' : 'Pause!'}</Pause>
       </Main>
     </Container>
   );
