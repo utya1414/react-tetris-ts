@@ -4,7 +4,7 @@
 第三引数にy座標
 第四引数にx座標
 */
-export const BLOCKS: number[][][][] = [
+const BLOCKS: number[][][][] = [
     [
       [
         [0, 0, 0, 0],
@@ -171,3 +171,5 @@ export const BLOCKS: number[][][][] = [
       ],
     ],
   ]
+
+export default BLOCKS;

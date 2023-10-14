@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components';
-import { BLOCKS } from './components/Blocks'
+import { BLOCKS, Description } from './components/index'
 
 const COLORS = ['black', 'lightblue', 'blue', 'orange', 'yellow', 'lightgreen', 'purple', 'red']
 
@@ -133,7 +133,6 @@ const Pause = styled.button`
     background-color: #2a2a2a;
   }
 `
-
 const Home = () => {
   const [gameOver, setGameOver] = useState(false)
   const [pause, setGamePause] = useState(false)
@@ -522,8 +521,8 @@ const Home = () => {
       document.removeEventListener('keydown', handleKeyDownForSpace, false)
     }
   }, [pause])
-  //nでnewgameをする関数
   return (
+    <>
     <Container>
       <Main>
         <AroundBlockArea>
@@ -576,8 +575,10 @@ const Home = () => {
           <ScoreandLevel>{gameOver ? 'Gameover' : 'You can do it!'}</ScoreandLevel>
         </GameStateArea>
         <Pause onClick={gamePause}>{pause ? 'Resume!' : 'Pause!'}</Pause>
+        <Description />
       </Main>
     </Container>
+    </>
   );
 }
 
