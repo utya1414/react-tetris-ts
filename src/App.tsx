@@ -144,7 +144,6 @@ const Home = () => {
   const [checkOne, setCheckOne] = useState(false)
 
   const [checkReset, setCheckReset] = useState(false)
-  //for decideng next-mino
   const createRandomNumbers = (): number[] => {
     const randoms: number[] = []
     while (randoms.length < 7) {
@@ -436,7 +435,7 @@ const Home = () => {
     }
   }
   // 即時に接地する関数(固定はされない)
-  const setUp = (): void => {
+  const dropDown = (): void => {
     let down = y
     while (!checkCordinate(x, down + 1, tetromino[rotateNumber])) {
       down++
@@ -465,8 +464,10 @@ const Home = () => {
   }
 
   // ゲームを一時停止する関数
-  const gamePause = (): void => setGamePause(!pause)
-
+  const gamePause = (): void => {
+    console.log(pause)
+    setGamePause(!pause);
+  }
   // キーボード操作
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -481,19 +482,13 @@ const Home = () => {
           drop()
           break
         case 'ArrowUp':
-          changeRotate(true)
+          dropDown()
           break
         case 'KeyX':
           changeRotate(true)
           break
-        case 'ControlLeft':
-          changeRotate(false)
-          break
         case 'KeyZ':
           changeRotate(false)
-          break
-        case 'Space':
-          setUp()
           break
         case 'ShiftLeft':
           holdfunc()
@@ -512,7 +507,16 @@ const Home = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown, false)
     }
-  }, [x, y, rotateNumber, tetromino, pause])
+  }, [x, y, rotateNumber, tetromino])
+  
+  //スペースボタンでゲームをポーズする関数
+  useEffect(() => {
+    if (gameOver) return
+    document.addEventListener('keydown', gamePause ,false)
+    return () => {
+      document.removeEventListener('keydown', gamePause, false)
+    }
+  }, [pause])
   
   return (
     <Container>
