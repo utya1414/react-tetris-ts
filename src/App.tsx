@@ -465,6 +465,7 @@ const Home = () => {
 
   // ゲームを一時停止する関数
   const gamePause = (): void => {
+    //console.log(pause)
     setGamePause(!pause);
   }
   // キーボード操作
@@ -499,7 +500,6 @@ const Home = () => {
     },
     [x, y, tetromino, rotateNumber]
   )
-
   useEffect(() => {
     if (gameOver || pause) return
     document.addEventListener('keydown', handleKeyDown, false)
@@ -508,15 +508,21 @@ const Home = () => {
     }
   }, [x, y, rotateNumber, tetromino])
 
-  //スペースボタンでゲームをポーズする関数
-  useEffect(() => {
-    if (gameOver) return
-    document.addEventListener('keydown', gamePause ,false)
-    return () => {
-      document.removeEventListener('keydown', gamePause, false)
+  //スペースボタン押下でゲームをポーズする関数
+  const handleKeyDownForSpace = useCallback((e: KeyboardEvent) => {
+    if (e.code === 'Space') {
+      gamePause()
     }
   }, [pause])
-  
+
+  useEffect(() => {
+    if (gameOver) return
+    document.addEventListener('keydown', handleKeyDownForSpace, false)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDownForSpace, false)
+    }
+  }, [pause])
+  //nでnewgameをする関数
   return (
     <Container>
       <Main>
