@@ -465,7 +465,6 @@ const Home = () => {
 
   // ゲームを一時停止する関数
   const gamePause = (): void => {
-    console.log(pause)
     setGamePause(!pause);
   }
   // キーボード操作
@@ -508,7 +507,7 @@ const Home = () => {
       document.removeEventListener('keydown', handleKeyDown, false)
     }
   }, [x, y, rotateNumber, tetromino])
-  
+
   //スペースボタンでゲームをポーズする関数
   useEffect(() => {
     if (gameOver) return
